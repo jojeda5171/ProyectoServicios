@@ -1,5 +1,6 @@
 package grupo1;
 
+import java.awt.HeadlessException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -61,28 +62,28 @@ public class frame extends javax.swing.JFrame {
     }
 
     public void guardarEstudiante() {
-        try {
-            RequestBody requestBody = new FormBody.Builder().add("CED_EST", jtxtCedula
-                    .getText()).add("NOM_EST", jtxtNombre.getText())
-                    .add("APE_EST", jtxtApellido.getText()).
-                    
-                    add("TEL_EST", jtxtTelefono.getText()).
-                    add("DIR_EST", jtxtDireccion.getText())
-                    .build();
-            JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/agregar.php", requestBody);
-            //JSONObject response = cliente.postJSON("http://localhost/soauta/models/guardar1.php", requestBody);
-            //JSONObject response = cliente.postJSON("http://localhost:8080/Grupo1_SOAWEB/webresources/generic/guardar", requestBody);
-            boolean verificar = response.getBoolean("ok");
-            if (verificar) {
-                JOptionPane.showMessageDialog(null, "Se guardo correctamente");
-                limpiarCajas();
-            } else {
-                JOptionPane.showMessageDialog(null, "No se guardo correctamente");
+        if (buscar(jtxtCedula.getText())) {
+            editar();
+        } else {
+            try {
+                RequestBody requestBody = new FormBody.Builder().add("CED_EST", jtxtCedula
+                        .getText()).add("NOM_EST", jtxtNombre.getText())
+                        .add("APE_EST", jtxtApellido.getText()).
+                        add("TEL_EST", jtxtTelefono.getText()).
+                        add("DIR_EST", jtxtDireccion.getText())
+                        .build();
+                JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/agregar.php", requestBody);
+                boolean verificar = response.getBoolean("ok");
+                if (verificar) {
+                    JOptionPane.showMessageDialog(null, "Se guardo correctamente");
+                    limpiarCajas();
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se guardo correctamente");
+                }
+                cargarTabla();
+            } catch (JSONException ex) {
+                JOptionPane.showMessageDialog(null, ex);
             }
-            cargarTabla();
-        } catch (JSONException ex) {
-            //Logger.getLogger(frame.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -92,9 +93,6 @@ public class frame extends javax.swing.JFrame {
                     .add("CED_EST", this.jtxtCedula.getText()).build();
 
             JSONObject response = this.cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/eliminar.php", requestBody);
-            //JSONObject response = this.cliente.postJSON("http://localhost/soauta/models/eliminar1.php", requestBody);
-            //JSONObject response = this.cliente.postJSON("http://localhost:8080/Grupo1_SOAWEB/webresources/generic/eliminar", requestBody);
-
             boolean verificar = response.getBoolean("ok");
             if (verificar) {
                 JOptionPane.showMessageDialog(null, "¡Eliminacion Exitoso!");
@@ -117,8 +115,6 @@ public class frame extends javax.swing.JFrame {
                     add("DIR_EST", jtxtDireccion.getText())
                     .build();
             JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/editar.php", requestBody);
-            //JSONObject response = cliente.putJSON("http://localhost/soauta/models/editar1.php", requestBody);
-            //JSONObject response = cliente.putJSON("http://localhost:8080/Grupo1_SOAWEB/webresources/generic/editar", requestBody);
             boolean verificar = response.getBoolean("ok");
             if (verificar) {
                 JOptionPane.showMessageDialog(null, "Se edito correctamente");
@@ -132,8 +128,47 @@ public class frame extends javax.swing.JFrame {
             System.out.println("prueba error");
         }
     }
-    
-    public void limpiarCajas(){
+
+    public boolean buscar(String cedula) {
+        boolean buscar = false;
+        try {
+            RequestBody requestBody = new FormBody.Builder().add("CED_EST", cedula).build();
+            JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/users/buscarID.php", requestBody);
+            if (response != null) {
+                buscar = true;
+            } else {
+                buscar = false;
+            }
+        } catch (HeadlessException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return buscar;
+    }
+
+    public void editar() {
+        try {
+            RequestBody requestBody = new FormBody.Builder().add("CED_EST", jtxtCedula
+                    .getText()).add("NOM_EST", jtxtNombre.getText())
+                    .add("APE_EST", jtxtApellido.getText()).
+                    add("TEL_EST", jtxtTelefono.getText()).
+                    add("DIR_EST", jtxtDireccion.getText())
+                    .add("EST_EST", "1")
+                    .build();
+            JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/editar.php", requestBody);
+            boolean verificar = response.getBoolean("ok");
+            if (verificar) {
+                JOptionPane.showMessageDialog(null, "Se edito correctamente");
+                limpiarCajas();
+            } else {
+                JOptionPane.showMessageDialog(null, "No se edito correctamente");
+            }
+            cargarTabla();
+        } catch (JSONException ex) {
+            System.out.println("prueba error");
+        }
+    }
+
+    public void limpiarCajas() {
         this.jtxtCedula.setText("");
         this.jtxtCedula.enable();
         this.jtxtNombre.setText("");
