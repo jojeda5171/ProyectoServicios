@@ -106,7 +106,6 @@ public class frame extends javax.swing.JFrame {
         } catch (JSONException ex) {
             Logger.getLogger(frame.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public void editarEstudiante() {

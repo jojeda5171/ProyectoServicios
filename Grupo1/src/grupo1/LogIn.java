@@ -31,7 +31,7 @@ Cliente cliente = new Cliente();
                     .getText()).add("PASS", jtxtPass.getText())
                     .build();
             JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/users/login.php", requestBody);
-            System.out.println(response);
+            //System.out.println(response);
             //boolean verificar = response.getBoolean("ok");
             if (response!=null) {
                 JOptionPane.showMessageDialog(null, "Bienvenido");
