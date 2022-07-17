@@ -16,6 +16,7 @@ public class frame extends javax.swing.JFrame {
     DefaultTableModel model;
     Cliente cliente = new Cliente();
     JSONArray estudiantes;
+    String[] titulos = {"Cedula", "Nombre", "Apellido", "Dirección", "Telefono", "Estado"};
 
     public frame() {
         initComponents();
@@ -24,8 +25,8 @@ public class frame extends javax.swing.JFrame {
 
     public void cargarTabla() {
         try {
-            String[] titulos = {"Cedula", "Nombre", "Apellido", "Dirección", "Telefono", "Estado"};
-            model = new DefaultTableModel(null, titulos);
+
+            model = new DefaultTableModel(null, this.titulos);
             JSONObject datos = cliente.getJSON("https://soa5swgrupo6.000webhostapp.com/api/listar.php");
             //JSONObject datos = cliente.getJSON("http://localhost/soauta/models/acceder1.php");
             //JSONObject datos = cliente.getJSON("http://localhost:8080/Grupo1_SOAWEB/webresources/generic/listar");
@@ -133,7 +134,7 @@ public class frame extends javax.swing.JFrame {
         boolean buscar = false;
         try {
             RequestBody requestBody = new FormBody.Builder().add("CED_EST", cedula).build();
-            JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/users/buscarID.php", requestBody);
+            JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/buscar-id.php", requestBody);
             if (response != null) {
                 buscar = true;
             } else {
@@ -148,23 +149,18 @@ public class frame extends javax.swing.JFrame {
     public void editar() {
         try {
             RequestBody requestBody = new FormBody.Builder().add("CED_EST", jtxtCedula
-                    .getText()).add("NOM_EST", jtxtNombre.getText())
-                    .add("APE_EST", jtxtApellido.getText()).
-                    add("TEL_EST", jtxtTelefono.getText()).
-                    add("DIR_EST", jtxtDireccion.getText())
-                    .add("EST_EST", "1")
-                    .build();
-            JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/editar.php", requestBody);
+                    .getText()).build();
+            JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/editar-estado.php", requestBody);
             boolean verificar = response.getBoolean("ok");
             if (verificar) {
-                JOptionPane.showMessageDialog(null, "Se edito correctamente");
+                JOptionPane.showMessageDialog(null, "Se coloco al estudiante: " + this.jtxtCedula + " como activo");
                 limpiarCajas();
             } else {
-                JOptionPane.showMessageDialog(null, "No se edito correctamente");
+                JOptionPane.showMessageDialog(null, "No se pudo activarle al estudiante");
             }
             cargarTabla();
         } catch (JSONException ex) {
-            System.out.println("prueba error");
+            System.out.println(ex);
         }
     }
 
@@ -198,6 +194,7 @@ public class frame extends javax.swing.JFrame {
         jbtnEditar = new javax.swing.JButton();
         jbtnEliminar = new javax.swing.JButton();
         jbtnCancelar = new javax.swing.JButton();
+        jtxtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -265,6 +262,23 @@ public class frame extends javax.swing.JFrame {
 
         jbtnCancelar.setText("Cancelar");
 
+        jtxtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtBuscarActionPerformed(evt);
+            }
+        });
+        jtxtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtxtBuscarKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtxtBuscarKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtBuscarKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -302,8 +316,13 @@ public class frame extends javax.swing.JFrame {
                         .addComponent(jbtnCancelar)
                         .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(213, 213, 213)
+                        .addComponent(jtxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 74, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -340,7 +359,9 @@ public class frame extends javax.swing.JFrame {
                         .addComponent(jbtnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbtnCancelar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
+                .addComponent(jtxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(83, 83, 83))
         );
@@ -372,6 +393,22 @@ public class frame extends javax.swing.JFrame {
     private void jbtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuevoActionPerformed
         limpiarCajas();
     }//GEN-LAST:event_jbtnNuevoActionPerformed
+
+    private void jtxtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtBuscarActionPerformed
+
+    }//GEN-LAST:event_jtxtBuscarActionPerformed
+
+    private void jtxtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtBuscarKeyReleased
+        buscar();
+    }//GEN-LAST:event_jtxtBuscarKeyReleased
+
+    private void jtxtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtBuscarKeyTyped
+        
+    }//GEN-LAST:event_jtxtBuscarKeyTyped
+
+    private void jtxtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtBuscarKeyPressed
+        
+    }//GEN-LAST:event_jtxtBuscarKeyPressed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -425,9 +462,40 @@ public class frame extends javax.swing.JFrame {
     private javax.swing.JButton jbtnNuevo;
     private javax.swing.JTable jtblEstudiantes;
     private javax.swing.JTextField jtxtApellido;
+    private javax.swing.JTextField jtxtBuscar;
     private javax.swing.JTextField jtxtCedula;
     private javax.swing.JTextField jtxtDireccion;
     private javax.swing.JTextField jtxtNombre;
     private javax.swing.JTextField jtxtTelefono;
     // End of variables declaration//GEN-END:variables
+
+    private void buscar() {
+        try {
+            model = new DefaultTableModel(null, this.titulos);
+            RequestBody requestBody = new FormBody.Builder().add("CED_EST", this.jtxtBuscar.getText()).build();
+            JSONObject datos = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/buscar.php?CED_EST=" + this.jtxtBuscar.getText(), requestBody);
+            if (datos == null) {
+                JOptionPane.showMessageDialog(null, "No existen coincidencias");
+                this.jtxtBuscar.setText("");
+                cargarTabla();
+                this.jtxtCedula.requestFocus();
+            } else {
+                this.estudiantes = (JSONArray) datos.get("estudiantes");
+                for (int i = 0; i < estudiantes.length(); i++) {
+                    String[] estudiante = new String[6];
+                    JSONObject estudiantes1 = (JSONObject) this.estudiantes.get(i);
+                    estudiante[0] = estudiantes1.getString("CED_EST");
+                    estudiante[1] = estudiantes1.getString("NOM_EST");
+                    estudiante[2] = estudiantes1.getString("APE_EST");
+                    estudiante[3] = estudiantes1.getString("DIR_EST");
+                    estudiante[4] = estudiantes1.getString("TEL_EST");
+                    estudiante[5] = estudiantes1.getString("EST_EST");
+                    model.addRow(estudiante);
+                }
+            }
+            this.jtblEstudiantes.setModel(model);
+        } catch (JSONException ex) {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
+    }
 }
