@@ -16,7 +16,8 @@ import org.json.JSONObject;
  * @author josel
  */
 public class LogIn extends javax.swing.JFrame {
-Cliente cliente = new Cliente();
+
+    Cliente cliente = new Cliente();
 
     /**
      * Creates new form LogIn
@@ -33,9 +34,10 @@ Cliente cliente = new Cliente();
             JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/users/login.php", requestBody);
             //System.out.println(response);
             //boolean verificar = response.getBoolean("ok");
-            if (response!=null) {
+            if (response != null) {
                 JOptionPane.showMessageDialog(null, "Bienvenido");
-                frame f=new frame();
+                frame f = new frame();
+                f.setUsuario(user);
                 f.setVisible(true);
                 this.dispose();
             } else {
@@ -44,6 +46,12 @@ Cliente cliente = new Cliente();
         } catch (HeadlessException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
+    }
+
+    private void registrarse() {
+        Registro registro = new Registro();
+        registro.setVisible(true);
+        this.dispose();
     }
 
     /**
@@ -61,6 +69,7 @@ Cliente cliente = new Cliente();
         jLabel3 = new javax.swing.JLabel();
         jbtnIngresar = new javax.swing.JButton();
         jtxtPass = new javax.swing.JPasswordField();
+        jbtnCrearCuenta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +83,13 @@ Cliente cliente = new Cliente();
         jbtnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnIngresarActionPerformed(evt);
+            }
+        });
+
+        jbtnCrearCuenta.setText("Crear Cuenta");
+        jbtnCrearCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCrearCuentaActionPerformed(evt);
             }
         });
 
@@ -95,7 +111,10 @@ Cliente cliente = new Cliente();
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jbtnIngresar)
                             .addComponent(jtxtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jtxtPass))))
+                            .addComponent(jtxtPass)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(133, 133, 133)
+                        .addComponent(jbtnCrearCuenta)))
                 .addContainerGap(159, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -113,7 +132,9 @@ Cliente cliente = new Cliente();
                     .addComponent(jtxtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(60, 60, 60)
                 .addComponent(jbtnIngresar)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jbtnCrearCuenta)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
@@ -122,6 +143,10 @@ Cliente cliente = new Cliente();
     private void jbtnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIngresarActionPerformed
         autenticacion(jtxtUser.getText(), jtxtPass.getText());
     }//GEN-LAST:event_jbtnIngresarActionPerformed
+
+    private void jbtnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCrearCuentaActionPerformed
+        registrarse();
+    }//GEN-LAST:event_jbtnCrearCuentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,8 +187,10 @@ Cliente cliente = new Cliente();
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton jbtnCrearCuenta;
     private javax.swing.JButton jbtnIngresar;
     private javax.swing.JPasswordField jtxtPass;
     private javax.swing.JTextField jtxtUser;
     // End of variables declaration//GEN-END:variables
+
 }

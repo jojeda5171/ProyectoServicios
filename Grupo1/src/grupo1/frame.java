@@ -17,6 +17,15 @@ public class frame extends javax.swing.JFrame {
     Cliente cliente = new Cliente();
     JSONArray estudiantes;
     String[] titulos = {"Cedula", "Nombre", "Apellido", "Dirección", "Telefono", "Estado"};
+    private String usuario;
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     public frame() {
         initComponents();
@@ -195,6 +204,8 @@ public class frame extends javax.swing.JFrame {
         jbtnEliminar = new javax.swing.JButton();
         jbtnCancelar = new javax.swing.JButton();
         jtxtBuscar = new javax.swing.JTextField();
+        jbtnCambiarPass = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -279,6 +290,15 @@ public class frame extends javax.swing.JFrame {
             }
         });
 
+        jbtnCambiarPass.setText("Cambiar Contraseña");
+        jbtnCambiarPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCambiarPassActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Buscar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -299,21 +319,21 @@ public class frame extends javax.swing.JFrame {
                     .addComponent(jtxtApellido)
                     .addComponent(jtxtNombre))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jbtnNuevo)
                             .addGap(164, 164, 164))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jbtnGuardar)
-                                .addComponent(jbtnEditar))
+                                .addComponent(jbtnEditar)
+                                .addComponent(jbtnEliminar))
                             .addContainerGap()))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbtnEliminar)
-                        .addGap(164, 164, 164))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jbtnCancelar)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbtnCambiarPass)
+                            .addComponent(jbtnCancelar))
                         .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,7 +341,9 @@ public class frame extends javax.swing.JFrame {
                         .addGap(59, 59, 59)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(213, 213, 213)
+                        .addGap(95, 95, 95)
+                        .addComponent(jLabel6)
+                        .addGap(37, 37, 37)
                         .addComponent(jtxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 74, Short.MAX_VALUE))
         );
@@ -355,13 +377,17 @@ public class frame extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(jtxtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
+                        .addGap(6, 6, 6)
                         .addComponent(jbtnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbtnCancelar)))
-                .addGap(20, 20, 20)
-                .addComponent(jtxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbtnCambiarPass)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(83, 83, 83))
         );
@@ -403,12 +429,16 @@ public class frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtBuscarKeyReleased
 
     private void jtxtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtBuscarKeyTyped
-        
+
     }//GEN-LAST:event_jtxtBuscarKeyTyped
 
     private void jtxtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtBuscarKeyPressed
-        
+
     }//GEN-LAST:event_jtxtBuscarKeyPressed
+
+    private void jbtnCambiarPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCambiarPassActionPerformed
+        cambiarPass();
+    }//GEN-LAST:event_jbtnCambiarPassActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -454,7 +484,9 @@ public class frame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbtnCambiarPass;
     private javax.swing.JButton jbtnCancelar;
     private javax.swing.JButton jbtnEditar;
     private javax.swing.JButton jbtnEliminar;
@@ -496,6 +528,40 @@ public class frame extends javax.swing.JFrame {
             this.jtblEstudiantes.setModel(model);
         } catch (JSONException ex) {
             JOptionPane.showMessageDialog(null, "Error");
+        }
+    }
+
+    private void cambiarPass() {
+        String nuevaPass = JOptionPane.showInputDialog("Ingrese su nueva contraseña");
+        String confirmarPass = JOptionPane.showInputDialog("Ingrese su nueva contraseña");
+        if (pass(nuevaPass, confirmarPass)) {
+            try {
+                RequestBody requestBody = new FormBody.Builder().add("USER", this.usuario)
+                        .add("PASS", nuevaPass)
+                        .build();
+                JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/users/cambiar-pass.php", requestBody);
+                boolean verificar = response.getBoolean("ok");
+                if (verificar) {
+                    JOptionPane.showMessageDialog(null, "¡Su contraseña se cambio con exito!");
+                    limpiarCajas();
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo cambiar la contraseña, intente mas tarde.");
+                }
+                LogIn l = new LogIn();
+                l.setVisible(true);
+                this.dispose();
+            } catch (JSONException ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
+    private boolean pass(String pass, String confirmPass) {
+        if (pass.equals(confirmPass)) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.");
+            return false;
         }
     }
 }

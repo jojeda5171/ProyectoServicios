@@ -42,6 +42,10 @@
                           <Component id="jtxtPass" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
+                      <Component id="jbtnCrearCuenta" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="159" max="32767" attributes="0"/>
           </Group>
@@ -64,7 +68,9 @@
               </Group>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
               <Component id="jbtnIngresar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="89" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jbtnCrearCuenta" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="49" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -96,6 +102,14 @@
       </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jtxtPass">
+    </Component>
+    <Component class="javax.swing.JButton" name="jbtnCrearCuenta">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Crear Cuenta"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnCrearCuentaActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
