@@ -45,6 +45,7 @@ public class Registro extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jlblControl = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -60,16 +61,27 @@ public class Registro extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Usuario");
+        jLabel2.setText("USUARIO");
 
         jtxtUser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setText("Contraseña");
+        jLabel3.setText("CONTRASEÑA");
 
         jtxtPass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         jtxtConfirmPass.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jtxtConfirmPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtxtConfirmPassKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtxtConfirmPassKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtConfirmPassKeyTyped(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("Cancelar");
@@ -93,7 +105,10 @@ public class Registro extends javax.swing.JFrame {
         jLabel7.setText("REGISTRO");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setText("Confirmación de Contraseña");
+        jLabel8.setText("CONFIRMACIÓN DE CONTRASEÑA");
+
+        jlblControl.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jlblControl.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -115,7 +130,8 @@ public class Registro extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jtxtUser)
                     .addComponent(jtxtPass)
-                    .addComponent(jtxtConfirmPass))
+                    .addComponent(jtxtConfirmPass)
+                    .addComponent(jlblControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -135,7 +151,9 @@ public class Registro extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
                 .addComponent(jtxtConfirmPass, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlblControl, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
@@ -172,6 +190,18 @@ public class Registro extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         registro();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jtxtConfirmPassKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtConfirmPassKeyTyped
+        
+    }//GEN-LAST:event_jtxtConfirmPassKeyTyped
+
+    private void jtxtConfirmPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtConfirmPassKeyPressed
+        
+    }//GEN-LAST:event_jtxtConfirmPassKeyPressed
+
+    private void jtxtConfirmPassKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtConfirmPassKeyReleased
+        notificacionError();
+    }//GEN-LAST:event_jtxtConfirmPassKeyReleased
 
     /**
      * @param args the command line arguments
@@ -219,6 +249,7 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jlblControl;
     private javax.swing.JPasswordField jtxtConfirmPass;
     private javax.swing.JPasswordField jtxtPass;
     private javax.swing.JTextField jtxtUser;
@@ -229,6 +260,14 @@ public class Registro extends javax.swing.JFrame {
         if (JOptionPane.showConfirmDialog(l, "¿Estás seguro que deseas cancelar?", "Cancelar", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             this.dispose();
             l.setVisible(true);
+        }
+    }
+    
+    private void notificacionError(){
+        if (!jtxtPass.getText().equals(jtxtConfirmPass.getText())){
+            jlblControl.setText("Las contraseñas no coinsiden");
+        }else{
+            jlblControl.setText("");
         }
     }
 
