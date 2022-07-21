@@ -69,6 +69,8 @@ public class Registro extends javax.swing.JFrame {
 
         jtxtPass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        jtxtConfirmPass.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
