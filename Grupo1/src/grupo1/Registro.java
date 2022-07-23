@@ -4,6 +4,8 @@
  */
 package grupo1;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import okhttp3.FormBody;
@@ -52,6 +54,8 @@ public class Registro extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
+        setIconImages(getIconImages());
         setLocation(new java.awt.Point(500, 270));
         setResizable(false);
 
@@ -195,11 +199,11 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jtxtConfirmPassKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtConfirmPassKeyTyped
-        
+
     }//GEN-LAST:event_jtxtConfirmPassKeyTyped
 
     private void jtxtConfirmPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtConfirmPassKeyPressed
-        
+
     }//GEN-LAST:event_jtxtConfirmPassKeyPressed
 
     private void jtxtConfirmPassKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtConfirmPassKeyReleased
@@ -265,11 +269,11 @@ public class Registro extends javax.swing.JFrame {
             l.setVisible(true);
         }
     }
-    
-    private void notificacionError(){
-        if (!jtxtPass.getText().equals(jtxtConfirmPass.getText())){
+
+    private void notificacionError() {
+        if (!jtxtPass.getText().equals(jtxtConfirmPass.getText())) {
             jlblControl.setText("Las contraseñas no coinsiden");
-        }else{
+        } else {
             jlblControl.setText("");
         }
     }
@@ -307,10 +311,16 @@ public class Registro extends javax.swing.JFrame {
             return true;
         }
     }
-    
+
     private void setTitulo() {
-        ImageIcon icono = new ImageIcon("src/imagenes/registro.png");
-        this.setIconImage(icono.getImage());
         this.setTitle("Registro");
+    }
+
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("imagenes/registro.png"));
+
+        return retValue;
     }
 }

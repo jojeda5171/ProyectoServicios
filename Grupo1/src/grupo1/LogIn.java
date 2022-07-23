@@ -60,9 +60,15 @@ public class LogIn extends javax.swing.JFrame {
     }
 
     private void setTitulo() {
-        ImageIcon icono = new ImageIcon("src/imagenes/login.png");
-        this.setIconImage(icono.getImage());
         this.setTitle("Bienvenido");
+    }
+
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("imagenes/login.png"));
+
+        return retValue;
     }
 
     /**
@@ -87,6 +93,8 @@ public class LogIn extends javax.swing.JFrame {
         jbtnCrearCuenta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
+        setIconImages(getIconImages());
         setLocation(new java.awt.Point(500, 270));
         setResizable(false);
 
