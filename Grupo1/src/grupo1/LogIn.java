@@ -8,6 +8,7 @@ package grupo1;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import okhttp3.FormBody;
@@ -27,6 +28,7 @@ public class LogIn extends javax.swing.JFrame {
      */
     public LogIn() {
         initComponents();
+        setTitulo();
     }
 
     public void autenticacion(String user, String pass) {
@@ -55,6 +57,12 @@ public class LogIn extends javax.swing.JFrame {
         Registro registro = new Registro();
         registro.setVisible(true);
         this.dispose();
+    }
+
+    private void setTitulo() {
+        ImageIcon icono = new ImageIcon("src/imagenes/login.png");
+        this.setIconImage(icono.getImage());
+        this.setTitle("Bienvenido");
     }
 
     /**
@@ -183,6 +191,7 @@ public class LogIn extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIngresarActionPerformed
@@ -242,4 +251,11 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JTextField jtxtUser;
     // End of variables declaration//GEN-END:variables
 
+//    @Override
+//    public Image getIconImage() {
+//        Image retValue = Toolkit.getDefaultToolkit().
+//                getImage(ClassLoader.getSystemResource("imagenes/login.png"));
+//
+//        return retValue;
+//    }
 }

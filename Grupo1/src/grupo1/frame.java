@@ -3,6 +3,7 @@ package grupo1;
 import java.awt.HeadlessException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import okhttp3.FormBody;
@@ -30,6 +31,9 @@ public class frame extends javax.swing.JFrame {
     public frame() {
         initComponents();
         cargarTabla();
+        setTitulo();
+        bloquearTextos();
+        bloquearBotones();
     }
 
     public void cargarTabla() {
@@ -66,6 +70,8 @@ public class frame extends javax.swing.JFrame {
             jtxtApellido.setText(estudiante.getString("APE_EST"));
             jtxtDireccion.setText(estudiante.getString("DIR_EST"));
             jtxtTelefono.setText(estudiante.getString("TEL_EST"));
+            desbloquearTextosEditarEliminar();
+            desbloquearBotonesEditarEliminar();
         } catch (JSONException ex) {
             Logger.getLogger(frame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -87,6 +93,8 @@ public class frame extends javax.swing.JFrame {
                 if (verificar) {
                     JOptionPane.showMessageDialog(null, "Se guardo correctamente");
                     limpiarCajas();
+                    bloquearTextos();
+                    bloquearBotones();
                 } else {
                     JOptionPane.showMessageDialog(null, "No se guardo correctamente");
                 }
@@ -111,6 +119,9 @@ public class frame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Eliminacion Fallida :(");
             }
             this.cargarTabla();
+            bloquearBotones();
+            bloquearTextos();
+            limpiarCajas();
         } catch (JSONException ex) {
             Logger.getLogger(frame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -133,7 +144,9 @@ public class frame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No se edito correctamente");
             }
             cargarTabla();
-
+            limpiarCajas();
+            bloquearBotones();
+            bloquearTextos();
         } catch (JSONException ex) {
             System.out.println("prueba error");
         }
@@ -162,12 +175,15 @@ public class frame extends javax.swing.JFrame {
             JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/editar-estado.php", requestBody);
             boolean verificar = response.getBoolean("ok");
             if (verificar) {
-                JOptionPane.showMessageDialog(null, "Se coloco al estudiante: " + this.jtxtCedula + " como activo");
+                JOptionPane.showMessageDialog(null, "Se coloco al estudiante: " + jtxtCedula.getText() + " como activo");
                 limpiarCajas();
             } else {
                 JOptionPane.showMessageDialog(null, "No se pudo activarle al estudiante");
             }
             cargarTabla();
+            limpiarCajas();
+            bloquearTextos();
+            bloquearBotones();
         } catch (JSONException ex) {
             System.out.println(ex);
         }
@@ -175,7 +191,6 @@ public class frame extends javax.swing.JFrame {
 
     public void limpiarCajas() {
         this.jtxtCedula.setText("");
-        this.jtxtCedula.enable();
         this.jtxtNombre.setText("");
         this.jtxtApellido.setText("");
         this.jtxtTelefono.setText("");
@@ -212,7 +227,7 @@ public class frame extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jbtnCambiarPass = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        jlblBienvenido = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(500, 270));
@@ -333,6 +348,11 @@ public class frame extends javax.swing.JFrame {
 
         jbtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancelar.png"))); // NOI18N
         jbtnCancelar.setText("Cancelar");
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarActionPerformed(evt);
+            }
+        });
 
         jbtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
         jbtnNuevo.setText("Nuevo");
@@ -455,19 +475,24 @@ public class frame extends javax.swing.JFrame {
         });
 
         jButton1.setText("Cerrar Sesión");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("BIENVENIDO");
+        jlblBienvenido.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jlblBienvenido.setForeground(new java.awt.Color(255, 255, 255));
+        jlblBienvenido.setText("BIENVENIDO");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 391, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
+                .addComponent(jlblBienvenido)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 420, Short.MAX_VALUE)
                 .addComponent(jbtnCambiarPass)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
@@ -476,11 +501,11 @@ public class frame extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(14, 14, 14)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnCambiarPass)
                     .addComponent(jButton1)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jlblBienvenido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -498,6 +523,7 @@ public class frame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtxtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtCedulaActionPerformed
@@ -522,7 +548,8 @@ public class frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnEliminarActionPerformed
 
     private void jbtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuevoActionPerformed
-        limpiarCajas();
+        desbloquearTextos();
+        desbloquearBotones();
     }//GEN-LAST:event_jbtnNuevoActionPerformed
 
     private void jtxtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtBuscarActionPerformed
@@ -544,6 +571,16 @@ public class frame extends javax.swing.JFrame {
     private void jbtnCambiarPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCambiarPassActionPerformed
         cambiarPass();
     }//GEN-LAST:event_jbtnCambiarPassActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cerrarSesion();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+        bloquearBotones();
+        bloquearTextos();
+        limpiarCajas();
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -591,7 +628,6 @@ public class frame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -604,6 +640,7 @@ public class frame extends javax.swing.JFrame {
     private javax.swing.JButton jbtnEliminar;
     private javax.swing.JButton jbtnGuardar;
     private javax.swing.JButton jbtnNuevo;
+    private javax.swing.JLabel jlblBienvenido;
     private javax.swing.JTable jtblEstudiantes;
     private javax.swing.JTextField jtxtApellido;
     private javax.swing.JTextField jtxtBuscar;
@@ -675,5 +712,71 @@ public class frame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.");
             return false;
         }
+    }
+
+    public void cerrarSesion() {
+        int resp = JOptionPane.showConfirmDialog(null, "¿Seguro que desea cerra sesión?",//<- EL MENSAJE
+                "¡Alerta!"/*<- El título de la ventana*/, JOptionPane.YES_NO_OPTION/*Las opciones (si o no)*/, JOptionPane.WARNING_MESSAGE/*El tipo de ventana, en este caso WARNING*/);
+        //Si la respuesta es sí(YES_OPTION)   
+        if (resp == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Sesión cerrada con exito.");
+            LogIn l = new LogIn();
+            l.setVisible(true);
+            this.dispose();
+        }
+    }
+
+    private void setTitulo() {
+        ImageIcon icono = new ImageIcon("src/imagenes/frame.png");
+        this.setIconImage(icono.getImage());
+        this.setTitle("Principal");
+    }
+
+    public void desbloquearTextos() {
+        jtxtCedula.setEnabled(true);
+        jtxtNombre.setEnabled(true);
+        jtxtApellido.setEnabled(true);
+        jtxtDireccion.setEnabled(true);
+        jtxtTelefono.setEnabled(true);
+    }
+
+    public void desbloquearBotones() {
+        jbtnNuevo.setEnabled(false);
+        jbtnGuardar.setEnabled(true);
+        jbtnEditar.setEnabled(false);
+        jbtnEliminar.setEnabled(false);
+        jbtnCancelar.setEnabled(true);
+    }
+
+    public void bloquearBotones() {
+        jbtnNuevo.setEnabled(true);
+        jbtnGuardar.setEnabled(false);
+        jbtnEditar.setEnabled(false);
+        jbtnEliminar.setEnabled(false);
+        jbtnCancelar.setEnabled(false);
+    }
+
+    public void bloquearTextos() {
+        jtxtCedula.setEnabled(false);
+        jtxtNombre.setEnabled(false);
+        jtxtApellido.setEnabled(false);
+        jtxtDireccion.setEnabled(false);
+        jtxtTelefono.setEnabled(false);
+    }
+
+    public void desbloquearBotonesEditarEliminar() {
+        jbtnNuevo.setEnabled(false);
+        jbtnGuardar.setEnabled(false);
+        jbtnEditar.setEnabled(true);
+        jbtnEliminar.setEnabled(true);
+        jbtnCancelar.setEnabled(true);
+    }
+
+    public void desbloquearTextosEditarEliminar() {
+        jtxtCedula.setEnabled(false);
+        jtxtNombre.setEnabled(true);
+        jtxtApellido.setEnabled(true);
+        jtxtDireccion.setEnabled(true);
+        jtxtTelefono.setEnabled(true);
     }
 }

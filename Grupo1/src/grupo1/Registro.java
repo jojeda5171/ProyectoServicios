@@ -4,6 +4,7 @@
  */
 package grupo1;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
@@ -23,6 +24,7 @@ public class Registro extends javax.swing.JFrame {
      */
     public Registro() {
         initComponents();
+        setTitulo();
     }
 
     /**
@@ -181,6 +183,7 @@ public class Registro extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -303,5 +306,11 @@ public class Registro extends javax.swing.JFrame {
         } else {
             return true;
         }
+    }
+    
+    private void setTitulo() {
+        ImageIcon icono = new ImageIcon("src/imagenes/registro.png");
+        this.setIconImage(icono.getImage());
+        this.setTitle("Registro");
     }
 }
