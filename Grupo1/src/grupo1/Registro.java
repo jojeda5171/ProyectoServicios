@@ -272,7 +272,7 @@ public class Registro extends javax.swing.JFrame {
 
     private void notificacionError() {
         if (!jtxtPass.getText().equals(jtxtConfirmPass.getText())) {
-            jlblControl.setText("Las contraseñas no coinsiden");
+            jlblControl.setText("Las contraseñas no coinciden");
         } else {
             jlblControl.setText("");
         }
