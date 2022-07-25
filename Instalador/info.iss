@@ -3,8 +3,8 @@
 
 #define MyAppName "Servicios"
 #define MyAppVersion "1.0"
-#define MyAppPublisher "Uta Microsoft Comunity"
-#define MyAppURL "https://utamc.org"
+#define MyAppPublisher "Grupo 5"
+#define MyAppURL "https://www.example.com/"
 #define MyAppExeName "Servicios.exe"
 #define MyAppAssocName MyAppName + " File"
 #define MyAppAssocExt ".myp"
@@ -13,7 +13,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{D1718156-FC53-4D3C-82C6-1B59362C216E}
+AppId={{62C2E8D1-9EE3-436B-A262-948A11221A1D}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
