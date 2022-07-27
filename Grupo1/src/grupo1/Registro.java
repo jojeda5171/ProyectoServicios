@@ -299,7 +299,11 @@ public class Registro extends javax.swing.JFrame {
     }
 
     private boolean validarDatos() {
-        if (jtxtPass.getText().isEmpty() || " ".equals(jtxtPass.getText())) {
+        if (this.jtxtUser.getText().contains(" ") || this.jtxtUser.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un Usuario sin espacios. Ej.: 'usuario'");
+            jtxtPass.requestFocus();
+            return false;
+        } else if (jtxtPass.getText().isEmpty() || " ".equals(jtxtPass.getText())) {
             JOptionPane.showMessageDialog(this, "Debe ingresar una Contraseña");
             jtxtPass.requestFocus();
             return false;
