@@ -21,7 +21,7 @@ public class frame extends javax.swing.JFrame {
     DefaultTableModel model;
     Cliente cliente = new Cliente();
     JSONArray estudiantes;
-    String[] titulos = {"Cedula", "Nombre", "Apellido", "Dirección", "Telefono", "Estado"};
+    String[] titulos = {"Cedula", "Nombre", "Apellido", "Dirección", "Telefono"};
     private String usuario;
 
     public String getUsuario() {
@@ -49,14 +49,14 @@ public class frame extends javax.swing.JFrame {
             //JSONObject datos = cliente.getJSON("http://localhost:8080/Grupo1_SOAWEB/webresources/generic/listar");
             this.estudiantes = (JSONArray) datos.get("estudiantes");
             for (int i = 0; i < estudiantes.length(); i++) {
-                String[] estudiante = new String[6];
+                String[] estudiante = new String[5];
                 JSONObject estudiantes1 = (JSONObject) this.estudiantes.get(i);
                 estudiante[0] = estudiantes1.getString("CED_EST");
                 estudiante[1] = estudiantes1.getString("NOM_EST");
                 estudiante[2] = estudiantes1.getString("APE_EST");
                 estudiante[3] = estudiantes1.getString("DIR_EST");
                 estudiante[4] = estudiantes1.getString("TEL_EST");
-                estudiante[5] = estudiantes1.getString("EST_EST");
+                //estudiante[5] = estudiantes1.getString("EST_EST");
                 model.addRow(estudiante);
             }
             this.jtblEstudiantes.setModel(model);
