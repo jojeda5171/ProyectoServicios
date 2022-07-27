@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -80,29 +82,31 @@ public class frame extends javax.swing.JFrame {
     }
 
     public void guardarEstudiante() {
-        if (buscar(jtxtCedula.getText())) {
-            editar();
-        } else {
-            try {
-                RequestBody requestBody = new FormBody.Builder().add("CED_EST", jtxtCedula
-                        .getText()).add("NOM_EST", jtxtNombre.getText())
-                        .add("APE_EST", jtxtApellido.getText()).
-                        add("TEL_EST", jtxtTelefono.getText()).
-                        add("DIR_EST", jtxtDireccion.getText())
-                        .build();
-                JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/agregar.php", requestBody);
-                boolean verificar = response.getBoolean("ok");
-                if (verificar) {
-                    JOptionPane.showMessageDialog(null, "Se guardo correctamente");
-                    limpiarCajas();
-                    bloquearTextos();
-                    bloquearBotones();
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se guardo correctamente");
+        if (validadorDeCedula(this.jtxtCedula.getText()) && validadorTelefono(this.jtxtTelefono.getText()) && validadorDatos()==true) {
+            if (buscar(jtxtCedula.getText())) {
+                editar();
+            } else {
+                try {
+                    RequestBody requestBody = new FormBody.Builder().add("CED_EST", jtxtCedula
+                            .getText()).add("NOM_EST", jtxtNombre.getText())
+                            .add("APE_EST", jtxtApellido.getText()).
+                            add("TEL_EST", jtxtTelefono.getText()).
+                            add("DIR_EST", jtxtDireccion.getText())
+                            .build();
+                    JSONObject response = cliente.postJSON("https://soa5swgrupo6.000webhostapp.com/api/agregar.php", requestBody);
+                    boolean verificar = response.getBoolean("ok");
+                    if (verificar) {
+                        JOptionPane.showMessageDialog(null, "Se guardo correctamente");
+                        limpiarCajas();
+                        bloquearTextos();
+                        bloquearBotones();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se guardo correctamente");
+                    }
+                    cargarTabla();
+                } catch (JSONException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
                 }
-                cargarTabla();
-            } catch (JSONException ex) {
-                JOptionPane.showMessageDialog(null, ex);
             }
         }
     }
@@ -197,6 +201,80 @@ public class frame extends javax.swing.JFrame {
         this.jtxtApellido.setText("");
         this.jtxtTelefono.setText("");
         this.jtxtDireccion.setText("");
+    }
+
+    public boolean validadorDeCedula(String cedula) {
+        boolean cedulaCorrecta = false;
+        try {
+
+            if (cedula.length() == 10) // ConstantesApp.LongitudCedula
+            {
+                int tercerDigito = Integer.parseInt(cedula.substring(2, 3));
+                if (tercerDigito < 6) {
+                    // Coeficientes de validación cédula
+                    // El decimo digito se lo considera dígito verificador
+                    int[] coefValCedula = {2, 1, 2, 1, 2, 1, 2, 1, 2};
+                    int verificador = Integer.parseInt(cedula.substring(9, 10));
+                    int suma = 0;
+                    int digito = 0;
+                    for (int i = 0; i < (cedula.length() - 1); i++) {
+                        digito = Integer.parseInt(cedula.substring(i, i + 1)) * coefValCedula[i];
+                        suma += ((digito % 10) + (digito / 10));
+                    }
+
+                    if ((suma % 10 == 0) && (suma % 10 == verificador)) {
+                        cedulaCorrecta = true;
+                    } else if ((10 - (suma % 10)) == verificador) {
+                        cedulaCorrecta = true;
+                    } else {
+                        cedulaCorrecta = false;
+                    }
+                } else {
+                    cedulaCorrecta = false;
+                }
+            } else {
+                cedulaCorrecta = false;
+            }
+        } catch (NumberFormatException nfe) {
+            cedulaCorrecta = false;
+        } catch (Exception err) {
+            JOptionPane.showMessageDialog(null, "Una excepcion ocurrio en el proceso de validadcion");
+            this.jtxtCedula.requestFocus();
+            cedulaCorrecta = false;
+        }
+        if (!cedulaCorrecta) {
+            JOptionPane.showMessageDialog(null, "La Cédula ingresada es Incorrecta");
+            this.jtxtCedula.requestFocus();
+        }
+        return cedulaCorrecta;
+    }
+
+    public boolean validadorTelefono(String telefono) {
+        Pattern p = Pattern.compile("^\\d{10}$");
+        Matcher m = p.matcher(telefono);
+        if (!m.matches()) {
+            JOptionPane.showMessageDialog(null, "El teléfono no es válido");
+            this.jtxtTelefono.requestFocus();
+        }
+        return (m.matches());
+    }
+
+    public boolean validadorDatos() {
+        if (this.jtxtNombre.getText().isEmpty() || this.jtxtNombre.getText().contains(" ")) {
+            JOptionPane.showMessageDialog(null, "Se debe ingresar un nombre.");
+            this.jtxtNombre.requestFocus();
+            return false;
+        } else if (this.jtxtApellido.getText().isEmpty() || this.jtxtApellido.getText().contains(" ")) {
+            JOptionPane.showMessageDialog(null, "Se debe ingresar un apellido.");
+            this.jtxtApellido.requestFocus();
+            return false;
+        } else if (this.jtxtDireccion.getText().isEmpty() || this.jtxtNombre.getText().equals(" ")) {
+            JOptionPane.showMessageDialog(null, "Se debe ingresar una dirección.");
+            this.jtxtDireccion.requestFocus();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @SuppressWarnings("unchecked")
